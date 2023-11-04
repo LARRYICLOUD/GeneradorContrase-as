@@ -20,7 +20,37 @@ namespace GeneradorContraseñas
 
             //Se crea una clase especificamente para manejar los campos y metodos que van a generar la contraseña
 
+            //Variables necesarias
+            string nombreUsuario, opcion, contraseña;
 
+            //Un titulo para el programa 
+            Console.WriteLine("\t\tRegistro\n\n");
+            //pedimos el nombre de usuario
+            Console.WriteLine("Ingrese de un nombre de usuario");
+            nombreUsuario = Console.ReadLine();
+            //preguntamos si se desea hacer uso del generador de contraseñas o escribir una nosotros mismos
+            Console.Write("¿Desea que le generemos una contraseña segura? (si/no):");
+            opcion = Console.ReadLine();
+            opcion =opcion.ToLower();//Convertimos a minuscula la respuesta del usuario (en caso de que use mayuscula o una combinacin de ambas)
+            //Seguimos una de las dos posibles rutas
+            switch (opcion)
+            {
+                case "si":
+                    //Instanciamos a la clase contraseña para poder hacer uso de ella
+                    Contraseña contraseña1 = new Contraseña();
+                    //Llamamos a su metodo "GenerarContraseña" y le asignamos lo que devuelve a nuestra variable local "contraseña"
+                    contraseña = contraseña1.GenerarContraseña();
+
+                Console.WriteLine($"Esta es la contraseña que generamos para ti, guardala en un lugar seguro: {contraseña}");
+                    Console.Write("\nPresiona cualquier tecla para terminar tu registro");
+                    Console.ReadKey();
+                    Console.Clear();
+                    //Mostramos un resumen de los datos
+                    Console.WriteLine($"\nTus datos de acceso son los siguientes:\n\tusuario: {nombreUsuario}\n\tcontraseña: {contraseña}");
+                    break;
+                case "no":
+                    break;
+            }
 
 
 
@@ -33,7 +63,7 @@ namespace GeneradorContraseñas
         string numeros = "0123456789";
         string letrasMin = "abcdefghijklmnñopqrstuvwwxyz";
         string letrasMay = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-        string caracterespecial = "$%#&!?";
+        string caracterEspecial = "$%#&!?";
         //Contadores para verificar el numero de caracteres de cada grupo
         int numContiene = 0, minContiene = 0, mayContiene = 0, espContiene = 0;
 
@@ -80,27 +110,38 @@ namespace GeneradorContraseñas
                         break;
 
                         case 1:
+                        if(minContiene < minTener)
+                        {
+                            caracterEscogido = letrasMin[random.Next(letrasMin.Length)];
+                            contraseñaGenerada += caracterEscogido;
+                            minContiene++;
+                        }
                         break;
 
                         case 2:
+                        if (mayContiene < mayTener)
+                        {
+                            caracterEscogido = letrasMay[random.Next(letrasMay.Length)];
+                            contraseñaGenerada += caracterEscogido;
+                            mayContiene++;
+                        }
                         break;
 
                         case 3:
+                        if (espContiene < espTener)
+                        {
+                            caracterEscogido = caracterEspecial[random.Next(caracterEspecial.Length)];
+                            contraseñaGenerada += caracterEscogido;
+                            espContiene++;
+                        }
                         break;
 
-
-
                 }
-
-
-
-
-
             }
 
+            return contraseñaGenerada;
+
         }
-
-
 
     }
 
